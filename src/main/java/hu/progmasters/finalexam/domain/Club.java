@@ -1,14 +1,16 @@
 package hu.progmasters.finalexam.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-//@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class Club {
     @Id
@@ -29,39 +31,8 @@ public class Club {
     @JsonManagedReference
     private List<Player> players;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public void setWins(int wins) {
         this.wins += wins;
     }
 
-    public void setCoach(Coach coach) {
-        this.coach = coach;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getWins() {
-        return wins;
-    }
-
-    public Coach getCoach() {
-        return coach;
-    }
-
-    public List<Player> getPlayers() {
-        return players;
-    }
 }
