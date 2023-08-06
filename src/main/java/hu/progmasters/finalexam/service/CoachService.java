@@ -4,12 +4,14 @@ import hu.progmasters.finalexam.domain.Club;
 import hu.progmasters.finalexam.domain.Coach;
 import hu.progmasters.finalexam.dto.ClubStatistics;
 import hu.progmasters.finalexam.exceptionhandling.CoachNotFoundException;
+import hu.progmasters.finalexam.exceptionhandling.NoPlayersInTheClubOfCoachException;
 import hu.progmasters.finalexam.repository.ClubRepository;
 import hu.progmasters.finalexam.repository.CoachRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -29,9 +31,9 @@ public class CoachService {
     public void delete(Integer coachId) {
         Coach deleteCoach = findCoachById(coachId);
         deleteCoach.setDeleted(true);
-        deleteCoach.setClub(null);
         Club club = deleteCoach.getClub();
         club.setCoach(null);
+        deleteCoach.setClub(null);
         coachRepository.delete(deleteCoach);
 
     }
@@ -45,12 +47,15 @@ public class CoachService {
     }
 
     public ClubStatistics listStatistics(int coachId) throws CoachNotFoundException {
-        if (findCoachById(coachId) == null) {
+        Coach c = findCoachById(coachId);
+        if (c == null) {
             throw new CoachNotFoundException(coachId);
         }
-        return (ClubStatistics) coachRepository.createStatistics(coachId).stream()
-                .map(club -> modelMapper.map(club, ClubStatistics.class))
-                .collect(Collectors.toList());
+        if (c.getClub().getPlayers().size() == 0){
+            throw new NoPlayersInTheClubOfCoachException(coachId);
+        }
+        Object[] k = (Object[]) coachRepository.createStatistics(coachId);
+        return modelMapper.map(new ClubStatistics((int) k[0], (double) k[1], (int) k[2], (int) k[3]), ClubStatistics.class);
     }
 }
 

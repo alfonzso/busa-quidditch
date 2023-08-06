@@ -49,14 +49,19 @@ public class ClubService {
         return clubOptional.get();
     }
 
-    public ClubWinnerInfo update(Integer id, ClubCreatedCommand command) throws ClubNotFoundException {
-        Club toUpdate = findClubById(id);
-        modelMapper.map(command, toUpdate);
-        List<Player> players = playerRepository.playerLookByClubId(id);
-        for (Player player : players) {
-            player.setWins(player.getWins() + 1);
+    public boolean hasClubSupStar(int id) {
+        Club club = findClubById(id);
+        return club.getPlayers().stream().anyMatch(player -> player.getWins() > club.getWins());
+    }
+
+    // HELP: https://stackoverflow.com/questions/3325387/infinite-recursion-with-jackson-json-and-hibernate-jpa-issue
+    public ClubWinnerInfo update(Integer id) throws ClubNotFoundException {
+        Club club = findClubById(id);
+        for (Player player : club.getPlayers()) {
+            player.setWins(1);
         }
-        return modelMapper.map(toUpdate, ClubWinnerInfo.class);
+        club.setWins(1);
+        return modelMapper.map(club, ClubWinnerInfo.class);
 
     }
 }

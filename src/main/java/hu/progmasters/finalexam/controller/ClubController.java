@@ -30,12 +30,16 @@ public class ClubController {
         return new ResponseEntity<>(clubInfo, HttpStatus.CREATED);
     }
 
+    @GetMapping("/superstar/{id}")
+    public ResponseEntity<String> getSupStar(@PathVariable Integer id) {
+        log.info("Http request, Get /superstar/{supId} body: " + id);
+        return new ResponseEntity<>(clubService.hasClubSupStar(id) ? "Has a superstar player!" : "No superstar player.", HttpStatus.OK);
+    }
+
     @PutMapping("/{clubId}")
-    public ResponseEntity<ClubWinnerInfo> update(@PathVariable("clubId") Integer id,
-                                                 @Valid @RequestBody ClubCreatedCommand command) {
-        log.info("Http request, PUT /api/clubs/{clubId} body: " + command.toString() +
-                " with variable: " + id);
-        ClubWinnerInfo updated = clubService.update(id, command);
+    public ResponseEntity<ClubWinnerInfo> update(@PathVariable Integer clubId) {
+        log.info("Http request, PUT /api/clubs/{clubId} with variable: " + clubId);
+        ClubWinnerInfo updated = clubService.update(clubId);
         return new ResponseEntity<>(updated, HttpStatus.OK);
     }
 }

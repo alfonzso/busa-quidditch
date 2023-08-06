@@ -11,4 +11,8 @@ public enum PlayerType {
     private PlayerType(int maxPlayerFromType) {
         this.maxPlayerFromType = maxPlayerFromType;
     }
+
+    public int getMaxPlayerFromType() {
+        return maxPlayerFromType;
+    }
 }

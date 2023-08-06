@@ -39,10 +39,9 @@ public class PlayerController {
     }
 
     @PutMapping("/{playerId}/club/{clubId}")
-    public ResponseEntity<PlayerInfo> update(@PathVariable int playerId, int clubId,
-                                             @Valid @RequestBody PlayerCreatedCommand command) {
-        log.info("Http request, PUT /api/players/{playerId}/club/{clubId}: " + command.toString());
-        PlayerInfo updated = playerService.update(playerId, clubId, command);
-        return new ResponseEntity<>(updated, HttpStatus.OK);
+    public ResponseEntity<PlayerInfo> update(@PathVariable int playerId, @PathVariable int clubId) {
+        log.info("Http request, PUT /api/players/"+playerId+"/club/"+clubId);
+        PlayerInfo updated = playerService.update(playerId, clubId);
+        return new ResponseEntity<>(updated, HttpStatus.ACCEPTED);
     }
 }

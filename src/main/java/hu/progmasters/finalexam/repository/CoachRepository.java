@@ -1,6 +1,7 @@
 package hu.progmasters.finalexam.repository;
 
 import hu.progmasters.finalexam.domain.Coach;
+import hu.progmasters.finalexam.dto.ClubStatistics;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -21,9 +22,9 @@ public class CoachRepository {
         entityManager.remove(coach);
     }
 
-    public List createStatistics(int coachId) {
-        return entityManager.createQuery("SELECT c.wins,AVG(p.wins),MAX(p.wins), MIN(p.wins) FROM Club c JOIN Player p where Coach.id IN : coachId")
+    public Object createStatistics(int coachId) {
+        return entityManager.createQuery("SELECT p.club.wins, AVG(p.wins), MAX(p.wins), MIN(p.wins) FROM Player p where p.club.coach.id IN : coachId")
                 .setParameter("coachId", coachId)
-                .getResultList();
+                .getSingleResult();
     }
 }
