@@ -26,7 +26,6 @@ public class PlayerRepository {
     }
 
     public List<Player> findAll() {
-//        return entityManager.createQuery("SELECT p.id, p.name, p.joined, p.playerType, p.wins, p.club FROM Player p ORDER BY p.joined DESC, p.wins ASC ", Player.class).getResultList();
         return entityManager.createQuery("SELECT p FROM Player p ORDER BY p.joined DESC, p.wins ASC ", Player.class).getResultList();
     }
 

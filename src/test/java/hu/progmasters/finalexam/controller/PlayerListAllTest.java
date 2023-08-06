@@ -51,7 +51,7 @@ public class PlayerListAllTest {
 
     private void saveTestClubAndPlayers() {
         entityManager.createNativeQuery(
-                        "INSERT INTO Club (name, wins) VALUES ('Wizard SE', 5); " +
+                        "INSERT INTO club (name, wins) VALUES ('Wizard SE', 5); " +
                                 "INSERT INTO player (name, joined, player_type, wins, club_id) VALUES ('Winona Witch', '2009-11-11', 'SEEKER', 1, 1); " +
                                 "INSERT INTO player (name, joined, player_type, wins, club_id) VALUES ('Walter Wizard', '2011-11-11', 'KEEPER', 3, 1); " +
                                 "INSERT INTO player (name, joined, player_type, wins, club_id) VALUES ('Wyatt Wizard', '2011-11-11', 'BEATER', 10, 1); " +

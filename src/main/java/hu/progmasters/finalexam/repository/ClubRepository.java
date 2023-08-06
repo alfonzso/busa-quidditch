@@ -19,13 +19,6 @@ public class ClubRepository {
         return toSave;
     }
 
-
-    public Optional<Club> findAllSupStar(Integer id) {
-        List<Club> ke = entityManager.createQuery("SELECT c FROM Club c ", Club.class).getResultList();
-        Optional<Club> club = Optional.ofNullable(entityManager.find(Club.class, id));
-        return Optional.ofNullable(entityManager.find(Club.class, id));
-    }
-
     public Optional<Club> findById(Integer id) {
         return Optional.ofNullable(entityManager.find(Club.class, id));
     }

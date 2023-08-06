@@ -105,7 +105,6 @@ public class PlayerSavingTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$[0].field", is("joined")))
                 .andExpect(jsonPath("$[0].errorMessage", is("must be in the past")));
-//                .andExpect(jsonPath("$[0].errorMessage", is("must be in the past")));
     }
 
     @Test
