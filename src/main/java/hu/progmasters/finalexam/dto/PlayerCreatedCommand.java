@@ -17,13 +17,17 @@ public class PlayerCreatedCommand {
     @NotNull
     @NotBlank
     private String name;
+
     @NotNull
-    @Past
+    @Past(message = "must be in the past")
     private LocalDate joined;
+
     @NotNull
     private PlayerType playerType;
 
     private int wins;
+
     @NotNull
     private Integer clubId;
 }
+

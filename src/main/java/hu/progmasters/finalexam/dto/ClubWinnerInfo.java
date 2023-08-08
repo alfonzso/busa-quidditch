@@ -16,5 +16,5 @@ public class ClubWinnerInfo {
     private String name;
     private int wins;
     private Coach coach;
-    private List<Player> playerList;
+    private List<Player> players;
 }

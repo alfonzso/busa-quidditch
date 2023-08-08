@@ -1,31 +1,38 @@
 package hu.progmasters.finalexam.domain;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class Club {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "club_id")
+    @Column
     private Integer id;
 
-    @Column(name = "club_name")
+    @Column
     private String name;
 
-    @Column(name = "wins")
+    @Column
     private int wins;
 
-    @OneToMany(mappedBy = "club")
-    private List<Player> players;
-
-    @OneToOne
+    @OneToOne(mappedBy = "club")
     private Coach coach;
 
+    @OneToMany(mappedBy = "club")
+    @JsonManagedReference
+    private List<Player> players;
+
+    public void setWins(int wins) {
+        this.wins += wins;
+    }
 
 }

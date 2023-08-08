@@ -1,6 +1,5 @@
 package hu.progmasters.finalexam.controller;
 
-import hu.progmasters.finalexam.dto.AllPlayerInfo;
 import hu.progmasters.finalexam.dto.PlayerCreatedCommand;
 import hu.progmasters.finalexam.dto.PlayerInfo;
 import hu.progmasters.finalexam.service.PlayerService;
@@ -17,7 +16,7 @@ import java.util.List;
 @RequestMapping("/api/players")
 @Slf4j
 public class PlayerController {
-    private PlayerService playerService;
+    private final PlayerService playerService;
 
     @Autowired
     public PlayerController(PlayerService playerService) {
@@ -32,17 +31,16 @@ public class PlayerController {
     }
 
     @GetMapping
-    public ResponseEntity<List<AllPlayerInfo>> findAllPlayers() {
+    public ResponseEntity<List<PlayerInfo>> findAllPlayers() {
         log.info("Http request, GET /api/players");
-        List<AllPlayerInfo> players = playerService.listPlayer();
+        List<PlayerInfo> players = playerService.listPlayer();
         return new ResponseEntity<>(players, HttpStatus.OK);
     }
 
     @PutMapping("/{playerId}/club/{clubId}")
-    public ResponseEntity<PlayerInfo> update(@PathVariable int playerId, int clubId,
-                                             @Valid @RequestBody PlayerCreatedCommand command) {
-        log.info("Http request, PUT /api/players/{playerId}/club/{clubId}: " + command.toString());
-        PlayerInfo updated = playerService.update(playerId, clubId, command);
-        return new ResponseEntity<>(updated, HttpStatus.OK);
+    public ResponseEntity<PlayerInfo> update(@PathVariable int playerId, @PathVariable int clubId) {
+        log.info("Http request, PUT /api/players/" + playerId + "/club/" + clubId);
+        PlayerInfo updated = playerService.update(playerId, clubId);
+        return new ResponseEntity<>(updated, HttpStatus.ACCEPTED);
     }
 }

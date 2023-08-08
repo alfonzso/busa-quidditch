@@ -1,5 +1,6 @@
 package hu.progmasters.finalexam.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,24 +15,29 @@ public class Player {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "player_id")
+    @Column
     private Integer id;
 
-    @Column(name = "player_name")
+    @Column
     private String name;
 
-    @Column(name = "joined_date")
+    @Column
     @JsonDeserialize(as = LocalDate.class)
     private LocalDate joined;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "player_type")
+    @Column
     private PlayerType playerType;
 
-    @Column(name = "wins")
+    @Column
     private int wins;
 
     @ManyToOne
     @JoinColumn(name = "club_id")
+    @JsonBackReference
     private Club club;
+
+    public void setWins(int wins) {
+        this.wins += wins;
+    }
 }

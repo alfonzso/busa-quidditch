@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ClubStatistics {
 
-    private int clubWin;
-    private int playerAvgWin;
-    private int maxWin;
-    private int minWin;
+    private int clubWins;
+    private double averagePlayerWins;
+    private int maxPlayerWins;
+    private int minPlayerWins;
 }

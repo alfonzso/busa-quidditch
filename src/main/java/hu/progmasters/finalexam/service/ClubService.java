@@ -13,16 +13,15 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
 @Transactional
 public class ClubService {
-    private ClubRepository clubRepository;
-    private ModelMapper modelMapper;
-    private GlobalExceptionHandler globalExceptionHandler;
-    private PlayerRepository playerRepository;
+    private final ClubRepository clubRepository;
+    private final ModelMapper modelMapper;
+    private final GlobalExceptionHandler globalExceptionHandler;
+    private final PlayerRepository playerRepository;
 
     public ClubService(ClubRepository clubRepository, ModelMapper modelMapper, GlobalExceptionHandler globalExceptionHandler, PlayerRepository playerRepository) {
         this.clubRepository = clubRepository;
@@ -49,14 +48,19 @@ public class ClubService {
         return clubOptional.get();
     }
 
-    public ClubWinnerInfo update(Integer id, ClubCreatedCommand command) throws ClubNotFoundException {
-        Club toUpdate = findClubById(id);
-        modelMapper.map(command, toUpdate);
-        List<Player> players = playerRepository.playerLookByClubId(id);
-        for (Player player : players) {
-            player.setWins(player.getWins() + 1);
+    public boolean hasClubSupStar(int id) {
+        Club club = findClubById(id);
+        return club.getPlayers().stream().anyMatch(player -> player.getWins() > club.getWins());
+    }
+
+    // HELP: https://stackoverflow.com/questions/3325387/infinite-recursion-with-jackson-json-and-hibernate-jpa-issue
+    public ClubWinnerInfo update(Integer id) throws ClubNotFoundException {
+        Club club = findClubById(id);
+        for (Player player : club.getPlayers()) {
+            player.setWins(1);
         }
-        return modelMapper.map(toUpdate, ClubWinnerInfo.class);
+        club.setWins(1);
+        return modelMapper.map(club, ClubWinnerInfo.class);
 
     }
 }

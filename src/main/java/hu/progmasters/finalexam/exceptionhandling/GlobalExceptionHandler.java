@@ -27,17 +27,38 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(List.of(validationError), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(PlayerTypeMaxedException.class)
+    public ResponseEntity<List<ValidationError>> handlePlayerTypeMaxedException(PlayerTypeMaxedException exception) {
+        ValidationError validationError = new ValidationError("clubId",
+                "club (id: " + exception.getClubId() + ") has enough player from type: " + exception.getPlayerType());
+        return new ResponseEntity<>(List.of(validationError), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(PlayerAlreadyJoinedException.class)
+    public ResponseEntity<List<ValidationError>> handlePlayerAlreadyJoinedException(PlayerAlreadyJoinedException exception) {
+        ValidationError validationError = new ValidationError("clubId",
+                "player (id: " + exception.getPlayerId() + ") already joined club (id: " + exception.getClubId() + ")");
+        return new ResponseEntity<>(List.of(validationError), HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(PlayerNotFoundException.class)
     public ResponseEntity<List<ValidationError>> handlePlayerTypeIsNotCorrect(PlayerNotFoundException exception) {
-        ValidationError validationError = new ValidationError("playerType",
-                "must not be null ");
+        ValidationError validationError = new ValidationError("playerId",
+                "no player found with id: " + exception.getPlayerId());
         return new ResponseEntity<>(List.of(validationError), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(CoachNotFoundException.class)
     public ResponseEntity<List<ValidationError>> handlePlayerTypeIsNotCorrect(CoachNotFoundException exception) {
         ValidationError validationError = new ValidationError("coachId",
-                "no coach found with id: ");
+                "no coach found with id: " + exception.getCoachId());
+        return new ResponseEntity<>(List.of(validationError), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NoPlayersInTheClubOfCoachException.class)
+    public ResponseEntity<List<ValidationError>> handleNoPlayersInTheClubOfCoachException(NoPlayersInTheClubOfCoachException exception) {
+        ValidationError validationError = new ValidationError("coachId",
+                "no players in the club of coach with id: " + exception.getCoachId());
         return new ResponseEntity<>(List.of(validationError), HttpStatus.BAD_REQUEST);
     }
 }

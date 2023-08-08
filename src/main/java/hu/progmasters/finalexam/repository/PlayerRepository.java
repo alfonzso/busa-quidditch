@@ -1,6 +1,8 @@
 package hu.progmasters.finalexam.repository;
 
 import hu.progmasters.finalexam.domain.Player;
+import hu.progmasters.finalexam.domain.PlayerType;
+import hu.progmasters.finalexam.dto.PlayerInfo;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -19,13 +21,17 @@ public class PlayerRepository {
     }
 
     public List<Player> playerLookByClubId(Integer clubId) {
-        return entityManager.createQuery("select p.club from Player p where p.club in :clubId", Player.class)
+        return entityManager.createQuery("select p from Player p where p.club.id = :clubId", Player.class)
                 .setParameter("clubId", clubId)
                 .getResultList();
     }
 
-    public List<Player> findAll() {
-        return entityManager.createQuery("SELECT p.id, p.name, p.joined, p.playerType, p.wins, p.club FROM Player p ORDER BY p.joined DESC, p.wins ASC ", Player.class).getResultList();
+    public List<PlayerInfo> findAll() {
+        return entityManager.createQuery("SELECT new hu.progmasters.finalexam.dto.PlayerInfo( p.id, p.name, p.joined, p.playerType, p.wins, p.club.name ) FROM Player p ORDER BY p.joined DESC, p.wins ASC ", PlayerInfo.class).getResultList();
+    }
+
+    public List<PlayerType> findAllPlayerType(Integer clubId) {
+        return entityManager.createQuery("SELECT p.playerType FROM Player p Where p.club.id = " + clubId, PlayerType.class).getResultList();
     }
 
     public Optional<Player> findById(int playerId) {

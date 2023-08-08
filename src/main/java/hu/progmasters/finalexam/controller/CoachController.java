@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/coaches")
 @Slf4j
 public class CoachController {
-    private CoachService coachService;
+    private final CoachService coachService;
 
     @Autowired
     public CoachController(CoachService coachService) {
