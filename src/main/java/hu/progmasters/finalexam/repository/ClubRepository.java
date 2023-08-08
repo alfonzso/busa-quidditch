@@ -1,12 +1,10 @@
 package hu.progmasters.finalexam.repository;
 
 import hu.progmasters.finalexam.domain.Club;
-import hu.progmasters.finalexam.domain.Player;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.List;
 import java.util.Optional;
 
 @Repository

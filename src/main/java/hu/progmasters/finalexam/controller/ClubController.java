@@ -16,7 +16,7 @@ import javax.validation.Valid;
 @RequestMapping("/api/clubs")
 @Slf4j
 public class ClubController {
-    private ClubService clubService;
+    private final ClubService clubService;
 
     @Autowired
     public ClubController(ClubService clubService) {

@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -22,8 +21,8 @@ public class CoachRepository {
         entityManager.remove(coach);
     }
 
-    public Object createStatistics(int coachId) {
-        return entityManager.createQuery("SELECT p.club.wins, AVG(p.wins), MAX(p.wins), MIN(p.wins) FROM Player p where p.club.coach.id IN : coachId")
+    public ClubStatistics createStatistics(int coachId) {
+        return entityManager.createQuery("SELECT new hu.progmasters.finalexam.dto.ClubStatistics( p.club.wins, AVG(p.wins), MAX(p.wins), MIN(p.wins) ) FROM Player p where p.club.coach.id IN : coachId", ClubStatistics.class)
                 .setParameter("coachId", coachId)
                 .getSingleResult();
     }

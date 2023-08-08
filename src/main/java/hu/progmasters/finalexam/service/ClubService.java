@@ -13,16 +13,15 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
 @Transactional
 public class ClubService {
-    private ClubRepository clubRepository;
-    private ModelMapper modelMapper;
-    private GlobalExceptionHandler globalExceptionHandler;
-    private PlayerRepository playerRepository;
+    private final ClubRepository clubRepository;
+    private final ModelMapper modelMapper;
+    private final GlobalExceptionHandler globalExceptionHandler;
+    private final PlayerRepository playerRepository;
 
     public ClubService(ClubRepository clubRepository, ModelMapper modelMapper, GlobalExceptionHandler globalExceptionHandler, PlayerRepository playerRepository) {
         this.clubRepository = clubRepository;

@@ -54,6 +54,7 @@ public class GlobalExceptionHandler {
                 "no coach found with id: " + exception.getCoachId());
         return new ResponseEntity<>(List.of(validationError), HttpStatus.BAD_REQUEST);
     }
+
     @ExceptionHandler(NoPlayersInTheClubOfCoachException.class)
     public ResponseEntity<List<ValidationError>> handleNoPlayersInTheClubOfCoachException(NoPlayersInTheClubOfCoachException exception) {
         ValidationError validationError = new ValidationError("coachId",

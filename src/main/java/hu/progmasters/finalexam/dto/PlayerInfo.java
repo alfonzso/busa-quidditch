@@ -1,14 +1,15 @@
 package hu.progmasters.finalexam.dto;
 
-import hu.progmasters.finalexam.domain.Club;
 import hu.progmasters.finalexam.domain.PlayerType;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class PlayerInfo {
@@ -18,4 +19,5 @@ public class PlayerInfo {
     private PlayerType playerType;
     private int wins;
     private String clubName;
+
 }

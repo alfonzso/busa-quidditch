@@ -6,9 +6,9 @@ public enum PlayerType {
     SEEKER(1);
 
 
-    private int maxPlayerFromType;
+    private final int maxPlayerFromType;
 
-    private PlayerType(int maxPlayerFromType) {
+    PlayerType(int maxPlayerFromType) {
         this.maxPlayerFromType = maxPlayerFromType;
     }
 

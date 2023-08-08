@@ -1,7 +1,5 @@
 package hu.progmasters.finalexam.exceptionhandling;
 
-import hu.progmasters.finalexam.domain.PlayerType;
-
 public class PlayerAlreadyJoinedException extends RuntimeException {
     private final int clubId;
     private final int playerId;

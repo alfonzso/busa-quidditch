@@ -2,6 +2,7 @@ package hu.progmasters.finalexam.repository;
 
 import hu.progmasters.finalexam.domain.Player;
 import hu.progmasters.finalexam.domain.PlayerType;
+import hu.progmasters.finalexam.dto.PlayerInfo;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -25,8 +26,8 @@ public class PlayerRepository {
                 .getResultList();
     }
 
-    public List<Player> findAll() {
-        return entityManager.createQuery("SELECT p FROM Player p ORDER BY p.joined DESC, p.wins ASC ", Player.class).getResultList();
+    public List<PlayerInfo> findAll() {
+        return entityManager.createQuery("SELECT new hu.progmasters.finalexam.dto.PlayerInfo( p.id, p.name, p.joined, p.playerType, p.wins, p.club.name ) FROM Player p ORDER BY p.joined DESC, p.wins ASC ", PlayerInfo.class).getResultList();
     }
 
     public List<PlayerType> findAllPlayerType(Integer clubId) {

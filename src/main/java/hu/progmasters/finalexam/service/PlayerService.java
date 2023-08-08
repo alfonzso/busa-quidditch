@@ -3,7 +3,6 @@ package hu.progmasters.finalexam.service;
 import hu.progmasters.finalexam.domain.Club;
 import hu.progmasters.finalexam.domain.Player;
 import hu.progmasters.finalexam.domain.PlayerType;
-import hu.progmasters.finalexam.dto.AllPlayerInfo;
 import hu.progmasters.finalexam.dto.PlayerCreatedCommand;
 import hu.progmasters.finalexam.dto.PlayerInfo;
 import hu.progmasters.finalexam.exceptionhandling.ClubNotFoundException;
@@ -18,14 +17,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
 public class PlayerService {
-    private ClubService clubService;
-    private ModelMapper modelMapper;
-    private PlayerRepository playerRepository;
+    private final ClubService clubService;
+    private final ModelMapper modelMapper;
+    private final PlayerRepository playerRepository;
     private PlayerType playerType;
 
     public PlayerService(ClubService clubService, ModelMapper modelMapper, PlayerRepository playerRepository) {
@@ -57,10 +55,8 @@ public class PlayerService {
 
     }
 
-    public List<AllPlayerInfo> listPlayer() {
-        return playerRepository.findAll().stream()
-                .map(player -> modelMapper.map(player, AllPlayerInfo.class))
-                .collect(Collectors.toList());
+    public List<PlayerInfo> listPlayer() {
+        return playerRepository.findAll();
     }
 
     public boolean playerTypeMaxed(PlayerType playerType, Integer clubId) {
@@ -70,10 +66,7 @@ public class PlayerService {
     }
 
     public boolean playerTypeIsCorrect(PlayerCreatedCommand command) {
-        if (command.getPlayerType() == PlayerType.CHASER || command.getPlayerType() == PlayerType.KEEPER || command.getPlayerType() == PlayerType.SEEKER || command.getPlayerType() == PlayerType.BEATER) {
-            return true;
-        }
-        return false;
+        return command.getPlayerType() == PlayerType.CHASER || command.getPlayerType() == PlayerType.KEEPER || command.getPlayerType() == PlayerType.SEEKER || command.getPlayerType() == PlayerType.BEATER;
     }
 
     public Player findPlayerById(Integer id) {
@@ -88,7 +81,7 @@ public class PlayerService {
         Club club = clubService.findClubById(clubId);
         Player playerToUpdate = findPlayerById(playerId);
 
-        if(playerToUpdate == null){
+        if (playerToUpdate == null) {
             throw new PlayerNotFoundException(playerId);
         }
 
